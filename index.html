@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+<script type="text/javascript"></script>
+
+<style>
+
+</style>
+
+<body>
+	
+	
+	<div class="table1"> 
+		<textarea id="area1" rows="4" cols="50"></textarea>
+		
+		<textarea id="area2" rows="4" cols="50"></textarea>
+	<p class="container" id="container"></p>
+	</div>
+
+	
+</body>
+<script>
+	
+		// Our simplified "load" function accepts a URL and CALLBACK parameter.
+		var text2;
+load('ColorNameMap.json', function(xhr) {
+	text2=xhr.responseText;
+	
+			obj = JSON.parse(text2);
+			for (y=0; y<obj.length;y++){
+			for (i=0; i < obj[y].color.length; i++){
+				document.getElementById("area1").innerHTML +=  obj[y].color[i] ;
+			
+			}
+					document.getElementById("area1").innerHTML += " ";
+					for (x=0; x < obj[y].value.length; x++){
+							document.getElementById("area1").innerHTML +=  obj[y].value[x] ;
+					}
+					document.getElementById("area1").innerHTML += "\n";
+			
+		}
+		
+		
+    document.getElementById('container').innerHTML = text2;
+});
+ 
+function load(url, callback) {
+        var xhr;
+         
+        if(typeof XMLHttpRequest !== 'undefined') xhr = new XMLHttpRequest();
+        else {
+            var versions = ["MSXML2.XmlHttp.5.0", 
+                            "MSXML2.XmlHttp.4.0",
+                            "MSXML2.XmlHttp.3.0", 
+                            "MSXML2.XmlHttp.2.0",
+                            "Microsoft.XmlHttp"]
+ 
+             for(var i = 0, len = versions.length; i < len; i++) {
+                try {
+                    xhr = new ActiveXObject(versions[i]);
+                    break;
+                }
+                catch(e){}
+             } // end for
+        }
+         
+        xhr.onreadystatechange = ensureReadiness;
+         
+        function ensureReadiness() {
+            if(xhr.readyState < 4) {
+                return;
+            }
+             
+            if(xhr.status !== 200) {
+                return;
+            }
+ 
+            // all is well  
+            if(xhr.readyState === 4) {
+                callback(xhr);
+            }           
+        }
+         
+        xhr.open('GET', url, true);
+        xhr.send('');
+    }
+ 
+
+
+	</script>
+	
+</html>
